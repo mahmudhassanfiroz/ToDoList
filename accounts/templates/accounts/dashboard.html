@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% include 'navbar.html' with title="FtL Task Management" %}
+{% block nav %}{% include 'navbar.html' with title="FtL Task Management" %} {% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <a href="{% url 'task:task_create' %}" class="btn btn-primary mr-2">Add Task</a>
+      <a href="{% url 'task:task_list'%}" class="btn btn-primary mr-2">View</a>
+    </div>
+    <div class="col-md-6">
+      <h3 class="mb-4">{{ user.get_full_name }}'s Task</h3>
+      <p>Total Tasks: {{ user.tasks.count }}</p>
+      <p>Upcoming Deadlines: {{ tasks_count }}</p>
+      <h2>Recent Activities</h2>
+      <ul>
+        {% for activity in user.activities.all %}
+          <li>{{ activity.description }} - {{ activity.timestamp }}</li>
+        {% endfor %}
+      </ul>
+      <h2>Notifications <i class="fas fa-bell"></i></h2>
+      {% if user.notifications.all %}
+        <div class="alert alert-info">
+          <ul>
+            {% for notification in user.notifications.all %}
+              <li>{{ notification.message }} - {{ notification.timestamp }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% else %}
+        <p>No notifications at the moment.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

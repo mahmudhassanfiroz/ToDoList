@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+<div class="container coustom_container">
+    <div class="custom-form-container mt-4">
+      <!-- Search and Filter Forms -->
+        <form method="GET">
+            <input type="text" name="search" placeholder="Search by title">
+            <button type="submit">Search</button>
+        </form>
+
+        <form method="GET">
+            <label for="due_date">Due Date:</label>
+            <input type="date" name="due_date">
+            <button type="submit">Filter by Due Date</button>
+        </form>
+
+        <form method="GET">
+            <label for="priority">Priority:</label>
+                <select name="priority">
+                    <option value="">All</option>
+                    <option value="high">High</option>
+                    <option value="medium">Medium</option>
+                    <option value="low">Low</option>
+                </select>
+            <button type="submit">Filter by Priority</button>
+        </form>
+
+        <form method="GET">
+            <label for="completed">Completed:</label>
+            <select name="completed">
+                <option value="">All</option>
+                <option value="True">Completed</option>
+                <option value="False">Not completed</option>
+            </select>
+            <button type="submit">Filter by Completion Status</button>
+        </form>
+        
+    </div>
+
+
+    <!-- Task List -->
+    <div class="task-list">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for task in tasks %}
+            <tr>
+              <td>{{ task.title }}</td>
+              <td>{{ task.description }}</td>
+              <td>{{ task.due_date }}</td>
+              <td>{{ task.priority }}</td>
+              <td>{{ task.status }}</td>
+              <td>
+                <a href="{% url 'task:task_detail' pk=task.id %}">View</a>
+                <a href="{% url 'task:task_update' pk=task.id %}">Update</a>
+                <a href="{% url 'task:task_delete' pk=task.id %}">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <a href="{% url 'task:task_create' %}" class="create-link">Create New Task</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+    <div class="container">
+        <div class="jumbotron mt-5 text-center">
+            <h1 class="display-4">Welcome to Task Management</h1>
+            <p class="lead">Organize your tasks efficiently.</p>
+            <hr class="my-4">
+            <p>Get started by creating tasks and managing your to-do list.</p>
+            <a class="btn btn-primary btn-lg" href="{% url 'accounts:signup' %}" role="button">Get Started</a>
+            <!-- Add an image -->
+            <img src="{% static 'images/task_pic.jpg' %}" alt="Task Management Image" class="img-fluid">
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock %}

@@ -1,0 +1,166 @@
+
+body {
+  background-color: #b4cee9;
+  font-family: Arial, sans-serif;
+}
+
+
+/* Customize the background color */
+.bg-custom {
+  background-color: #70aed8; /* Change to your desired color */
+}
+.bg-customs {
+  background-color: #45a7e9; /* Change to your desired color */
+}
+
+
+/* Customize the text color */
+.text-custom {
+  color: #ffffff; /* Change to your desired color */
+}
+
+.coustom_form form {
+  max-width: 400px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.coustom_form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333333;
+}
+
+.coustom_form input[type="text"],
+.coustom_form input[type="date"] {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.coustom_form button {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.coustom_form button:hover {
+  background-color: #0056b3;
+}
+
+.coustom_form a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.coustom_form a:hover {
+  text-decoration: underline;
+}
+
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+h2 {
+  color: #333;
+}
+
+.coustom_container {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px;
+}
+
+.custom-form-container {
+  width: 30%;
+}
+
+/* .custom-form {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+} */
+
+/* .custom-form form {
+  margin-bottom: 10px;
+} */
+
+/* .custom-form label {
+  display: block;
+  margin-bottom: 8px;
+  color: #333333;
+} */
+
+/* .custom-form input,
+.custom-form select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+} */
+
+/* .custom-form button {
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+} */
+
+/* .custom-form button:hover {
+  background-color: #0056b3;
+} */
+
+.task-list {
+  width: 65%;
+}
+
+.task-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-list th, .task-list td {
+  border: 1px solid #e7d2d2;
+  padding: 8px;
+  text-align: left;
+}
+
+.task-list th {
+  background-color: #007bff;
+  color: #ffffff;
+}
+
+.task-list td a {
+  margin-right: 5px;
+}
+
+.create-link {
+  display: block;
+  margin-top: 20px;
+  background-color: #007bff;
+  color: #ffffff;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.create-link:hover {
+  background-color: #0056b3;
+  color: #000;
+}
+

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
+  <h2>Create Task</h2>
+  <div class= "coustom_form">
+    <form method="post" action="{% url 'task:task_create' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Create Task</button>
+    </form>
+  </div>
+  <a href="{% url 'task:task_list' %}">Back to Task List</a>
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
+{% endblock %}
+
