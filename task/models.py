@@ -26,6 +26,12 @@ class Task(models.Model):
   priority = models.CharField(
     max_length=6, choices=PRIORITY_CHOICES, default="low"
   )
+  STATUS_CHOICES = [
+        ('todo', 'To Do'),
+        ('in_progress', 'In Progress'),
+        ('completed', 'Completed'),
+    ]
+  status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
   completed = models.BooleanField(default=False)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)
@@ -36,11 +42,12 @@ class Task(models.Model):
 
 # Photo Model
 class Photo(models.Model):
-  task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='photos')
-  image = models.ImageField(upload_to="task_photos", blank=True)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='photos')
+    image = models.ImageField(upload_to="task_photos", blank=True)
+    uploaded_by = models.ForeignKey(User,default='', on_delete=models.CASCADE)
 
-  def __str__(self):
-    return f"Photo for task {self.task.title}"
+    def __str__(self):
+        return f"Photo for task {self.task.title} uploaded by {self.uploaded_by.username}"
 
 
 # Comment Model

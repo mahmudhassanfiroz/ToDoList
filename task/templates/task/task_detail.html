@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
 <h1>Task Detail</h1>
-
+{% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 <table>
     <tr>
         <th>Title:</th>
@@ -24,6 +30,32 @@
         <td>{{ task.status }}</td>
     </tr>
 </table>
+
+<a href="{% url 'task:photo_upload' task_id=task.id %}" class="btn btn-secondary">upload</a>
+
+<!-- Display uploaded photos -->
+{% if photos %}
+    <h3>Task Photos</h3>
+    <div class="row">
+        {% for photo in photos %}
+            <div class="col-sm-4">
+                <div class="card m-2">
+                    <img class="card-img-top" src="{{ photo.image.url }}" alt="Photo" height="200px">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'task:photo_delete' photo.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No photos uploaded yet.</p>
+{% endif %}
+
+</div>
 
 <a href="{% url 'task:task_update' task.pk %}">Update</a>
 <a href="{% url 'task:task_list' %}">Back to Task List</a>

@@ -9,6 +9,9 @@ from django.views import View
 from django.http import HttpResponseRedirect
 from django.views import View
 from django.contrib.auth.views import PasswordChangeView
+from .models import Activity, Notification
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 
@@ -84,3 +87,32 @@ class LogoutView(View):
 #         if not self.request.user.is_authenticated:
 #             return redirect('login')
 #         return super().get(request, *args, **kwargs) 
+
+class BaseView(View):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['notifications'] = Notification.objects.filter(user=self.request.user, is_read=False)
+        return context
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        return render(request, 'base.html', context)
+
+@login_required
+def activity_list(request):
+    activities = Activity.objects.filter(user=request.user)
+    return render(request, 'accounts/activity_list.html', {'activities': activities})
+
+@login_required
+def notification_list(request):
+    notifications = Notification.objects.filter(user=request.user)
+    return render(request, 'accounts/notification_list.html', {'notifications': notifications})
+
+@login_required
+def mark_notification_as_read(request, notification_id):
+    notification = get_object_or_404(Notification, pk=notification_id, user=request.user)
+    notification.is_read = True
+    notification.save()
+    return redirect('notification_list')
+

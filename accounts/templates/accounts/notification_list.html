@@ -1,0 +1,12 @@
+
+
+    {% if notifications %}
+        <ul>
+            {% for notification in notifications %}
+                <li>{{ notification.message }} - {{ notification.timestamp }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No notifications</p>
+    {% endif %}
+

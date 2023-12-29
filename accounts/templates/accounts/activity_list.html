@@ -1,0 +1,6 @@
+
+    <ul>
+      {% for activity in recent_activities %}
+        <li>{{ activity.description }} - {{ activity.timestamp }}</li>
+      {% endfor %}
+    </ul>

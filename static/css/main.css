@@ -85,45 +85,6 @@ h2 {
   width: 30%;
 }
 
-/* .custom-form {
-  background-color: #f5f5f5;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
-} */
-
-/* .custom-form form {
-  margin-bottom: 10px;
-} */
-
-/* .custom-form label {
-  display: block;
-  margin-bottom: 8px;
-  color: #333333;
-} */
-
-/* .custom-form input,
-.custom-form select {
-  width: 100%;
-  padding: 8px;
-  margin-bottom: 16px;
-  box-sizing: border-box;
-} */
-
-/* .custom-form button {
-  background-color: #007bff;
-  color: #ffffff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-} */
-
-/* .custom-form button:hover {
-  background-color: #0056b3;
-} */
-
 .task-list {
   width: 65%;
 }
@@ -164,3 +125,32 @@ h2 {
   color: #000;
 }
 
+/* Messages */
+.messages {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.messages li {
+  background-color: #f2f2f2;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-left: 5px solid #007bff; /* Message border color */
+}
+
+.messages li.error {
+  border-left-color: #dc3545; /* Error message border color */
+}
+
+.messages li.warning {
+  border-left-color: #ffc107; /* Warning message border color */
+}
+
+.messages li.success {
+  border-left-color: #28a745; /* Success message border color */
+}
+
+.messages li.info {
+  border-left-color: #17a2b8; /* Info message border color */
+}
