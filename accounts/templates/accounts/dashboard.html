@@ -11,10 +11,8 @@
       <h3 class="mb-4">{{ user.get_full_name }}'s Tasks</h3>
       <p>Total Tasks: {{ user.tasks.count }}</p>
       <p>Upcoming Deadlines: {{ upcoming_deadlines_count }}</p>
-      <h2>Recent Activities</h2>
-      {% include 'accounts/activity_list.html' %}
-      <h2>Notifications</h2>
-      {% include 'accounts/notification_list.html' %}
+      <h3>Recent Activities</h3>
+      <h3>Notifications</h3>
     </div>
   </div>
 </div>
