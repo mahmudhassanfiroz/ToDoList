@@ -1,3 +1,4 @@
+
 from django.contrib import messages
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect, get_object_or_404
@@ -15,6 +16,8 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.urls import reverse
 from django.views import View
+from django.http import HttpResponse
+
 
 
 # ViewSets
@@ -72,26 +75,27 @@ class TaskListViewSet(ListCreateAPIView):
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
-# CRUD Views with Templates Create 
-class TaskCreateView(TemplateView):
+# CRUD Views with Templates Create
+class TaskCreateView(FormView):
     template_name = 'task/task_create.html'
+    form_class = TaskForm
+    success_url = ('/task:task_list/')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = TaskForm()
-        return context
+    def form_valid(self, form):
+        task = form.save(commit=False)
+        task.user = self.request.user
+        task.save()
 
-    def post(self, request, *args, **kwargs):
-        form = TaskForm(request.POST)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.user = request.user
-            task.save()
-            messages.success(request, 'Task created successfully.')
-            return redirect('task:task_list')
-        else:
-            return render(request, self.template_name, {'form': form})
+        # Process the photo form
+        photo_form = PhotoForm(self.request.POST, self.request.FILES)
+        if photo_form.is_valid():
+            photo = photo_form.save(commit=False)
+            photo.task = task
+            photo.uploaded_by = self.request.user
+            photo.save()
 
+        messages.success(self.request, 'Task created successfully.')
+        return super().form_valid(form)
 # TCRUD Views with Templates Update 
 class TaskUpdateView(DetailView):
     model = Task
@@ -139,7 +143,7 @@ class TaskDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         task = self.get_object()
         photos = Photo.objects.filter(task=task)
-        context['photos'] = photos 
+        context['photos'] = photos
         return context
 
     def dispatch(self, request, *args, **kwargs):
@@ -156,9 +160,36 @@ class TaskDetailView(DetailView):
             photo.uploaded_by = request.user
             photo.save()
             messages.success(request, 'Photo uploaded successfully.')
-            return redirect('task:task_detail', pk=task.pk)
+            return redirect('task:task_detail', pk=task.pk)  # Pass pk argument here
         else:
             return render(request, self.template_name, {'task': task, 'photo_form': photo_form})
+class MyView(View):
+    def post(self, request, *args, **kwargs):
+        image = request.FILES['image']
+
+        # Image resize
+        img = Image.open(image)
+        img = img.resize((200, 200))
+        img.save('resized_image.jpg')
+
+        # Image crop
+        img = Image.open(image)
+        img = img.crop((0, 0, 100, 100))
+        img.save('cropped_image.jpg')
+
+        # Thumbnail creation
+        img = Image.open(image)
+        img.thumbnail((100, 100))
+        img.save('thumbnail.jpg')
+
+        # Add watermark
+        img = Image.open(image)
+        watermark = Image.open('watermark.png')
+        img.paste(watermark, (0, 0))
+        img.save('watermarked_image.jpg')
+
+        return HttpResponse('Image processed successfully!')
+
 
 class PhotoUploadView(FormView):
     template_name = 'task/upload_photos.html'

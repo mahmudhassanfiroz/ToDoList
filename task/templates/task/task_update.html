@@ -2,22 +2,23 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-  <h2>Update Task</h2>
-  <div class="coustom_form">
-    {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
-      {% endfor %}
-    </ul>
+<h2>Update Task</h2>
+<div class="custom_form">
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
+    {% endfor %}
+  </ul>
   {% endif %}
-    <form method="post" action="{% url 'task:task_update' pk=task.pk %}">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit">Update Task</button>
-    </form>
-  </div>
-  <a href="{% url 'task:task_list' %}">Back to Task List</a>
+  <form method="post" action="{% url 'task:task_update' pk=task.pk %}" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!-- Add additional fields here if needed -->
+    <button type="submit">Update Task</button>
+  </form>
+</div>
+<a href="{% url 'task:task_list' %}" class="btn btn-secondary">Back to Task List</a>
 {% endblock %}
 
 {% block footer %}

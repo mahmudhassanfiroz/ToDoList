@@ -38,44 +38,48 @@
         </form>
         
     </div>
-
-
     <!-- Task List -->
     <div class="task-list">
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for task in tasks %}
-            <tr>
-              <td>{{ task.title }}</td>
-              <td>{{ task.description }}</td>
-              <td>{{ task.due_date }}</td>
-              <td>{{ task.priority }}</td>
-              <td>{{ task.status }}</td>
-              <td>
-                <a href="{% url 'task:task_detail' pk=task.id %}">View</a>
-                <a href="{% url 'task:task_update' pk=task.id %}">Update</a>
-                <a href="{% url 'task:task_delete' pk=task.id %}">Delete</a>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Photo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.due_date }}</td>
+                    <td>{{ task.priority }}</td>
+                    <td>{{ task.status }}</td>
+                    <td>
+                        {% if task.photo_set.all %}
+                            <a href="{% url 'task:task_detail' pk=task.id %}">
+                                <img src="{{ task.photo_set.first.image.url }}" alt="Photo" height="20px">
+                            </a>
+                        {% else %}
+                            No photo
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'task:task_detail' pk=task.id %}">View</a>
+                        <a href="{% url 'task:task_update' pk=task.id %}">Update</a>
+                        <a href="{% url 'task:task_delete' pk=task.id %}">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
 
-      <a href="{% url 'task:task_create' %}" class="create-link">Create New Task</a>
+        <a href="{% url 'task:task_create' %}" class="create-link">Create New Task</a>
     </div>
 </div>
-{% endblock %}
-
-{% block footer %}
-{% include 'footer.html' %}
 {% endblock %}

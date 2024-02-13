@@ -7,11 +7,15 @@
   {% endfor %}
 </ul>
 {% endif %}
-  <h2>Delete Task</h2>
-  <p>Are you sure you want to delete "{{ task.title }}"?</p>
-  <form method="post" action="{% url 'task:task_delete' pk=task.id %}">
-    {% csrf_token %}
-    <button type="submit">Delete</button>
-  </form>
-  <a href="{% url 'task:task_list' %}">Back to Task List</a>
+<h2>Delete Task</h2>
+<p>Are you sure you want to delete "{{ task.title }}"?</p>
+<form method="post" action="{% url 'task:task_delete' pk=task.pk %}">
+  {% csrf_token %}
+  <button type="submit">Delete</button>
+  <a href="{% url 'task:task_list' %}" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
+
+{% block footer %}
+{% include 'footer.html' %}
 {% endblock %}
