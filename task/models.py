@@ -15,39 +15,51 @@ from django.contrib.auth.models import User
 
 # Task Model
 class Task(models.Model):
-  title = models.CharField(max_length=255)
-  description = models.TextField(blank=True)
-  due_date = models.DateTimeField(blank=True, null=True)
-  PRIORITY_CHOICES = (
-    ("low", "Low"),
-    ("medium", "Medium"),
-    ("high", "High"),
-  )
-  priority = models.CharField(
-    max_length=6, choices=PRIORITY_CHOICES, default="low"
-  )
-  STATUS_CHOICES = [
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    due_date = models.DateTimeField(blank=True, null=True)
+    PRIORITY_CHOICES = (
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
+    )
+    priority = models.CharField(
+        max_length=6, choices=PRIORITY_CHOICES, default="low"
+    )
+    STATUS_CHOICES = [
         ('todo', 'To Do'),
         ('in_progress', 'In Progress'),
         ('completed', 'Completed'),
     ]
-  status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
-  completed = models.BooleanField(default=False)
-  created_at = models.DateTimeField(auto_now_add=True)
-  updated_at = models.DateTimeField(auto_now=True)
-  user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')
-
-  def __str__(self):
-    return self.title
-
-# Photo Model
-class Photo(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='photos')
-    image = models.ImageField(upload_to="task_photos", blank=True)
-    uploaded_by = models.ForeignKey(User,default='', on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='todo')
+    completed = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks', default=None)
 
     def __str__(self):
-        return f"Photo for task {self.task.title} uploaded by {self.uploaded_by.username}"
+        return self.title
+
+    def get_photos(self):
+        return self.photos.all()
+
+    def mark_as_complete(self):
+        self.completed = True
+        self.save()
+
+    def mark_as_incomplete(self):
+        self.completed = False
+        self.save()
+# Photo Model
+
+class Photo(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='photos')
+    image = models.ImageField(upload_to='photos/')
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Photo for task {self.task.title}"
 
 
 # Comment Model
