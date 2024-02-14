@@ -31,7 +31,7 @@
     </tr>
 </table>
 
-<a href="{% url 'task:photo_upload' task_id=task.id %}" class="btn btn-secondary">Upload Photo</a>
+<a href="{% url 'task:photo_upload' pk=task.id %}" class="btn btn-secondary">Upload Photo</a>
 
 <!-- Display uploaded photos -->
 {% if photos %}

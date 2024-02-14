@@ -1,21 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
-from django.utils import timezone 
 from django.contrib.auth.models import User
+from django.utils import timezone
 
-# Create your models here.
 
-# User Model
-# class User(AbstractUser):
-#     # Add custom fields and methods for your User model here
-#   avatar = models.ImageField(upload_to='avatars', blank=True)
-
-#   def __str__(self):
-#     return self.username
-
-# Task Model
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks')    
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     due_date = models.DateTimeField(blank=True, null=True)
@@ -36,7 +25,6 @@ class Task(models.Model):
     completed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tasks', default=None)
 
     def __str__(self):
         return self.title
@@ -51,15 +39,17 @@ class Task(models.Model):
     def mark_as_incomplete(self):
         self.completed = False
         self.save()
-# Photo Model
 
 class Photo(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='photos')
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='photos/')
-    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=None)
+    uploaded_at = models.DateTimeField(default=timezone.now)
+
+
 
     def __str__(self):
-        return f"Photo for task {self.task.title}"
+        return self.image.name
 
 
 # Comment Model
@@ -71,4 +61,3 @@ class Comment(models.Model):
 
   def __str__(self):
     return f"Comment by {self.user.username} on task {self.task.title}"
-  

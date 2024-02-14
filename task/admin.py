@@ -33,8 +33,8 @@ class CommentAdmin(admin.ModelAdmin):
 
 @admin.register(Photo)
 class PhotoAdmin(admin.ModelAdmin):
-    list_display = ['task', 'image', 'uploaded_by']
-    list_filter = ['uploaded_by']
+    list_display = ['id', 'task', 'uploaded_by', 'image']
+    list_filter = ['task']
     search_fields = ['image']
 
     def has_add_permission(self, request):

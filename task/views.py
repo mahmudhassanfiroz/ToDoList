@@ -79,7 +79,7 @@ class TaskListViewSet(ListCreateAPIView):
 class TaskCreateView(FormView):
     template_name = 'task/task_create.html'
     form_class = TaskForm
-    success_url = ('/task:task_list/')
+    success_url = ('/tasks/')
 
     def form_valid(self, form):
         task = form.save(commit=False)
@@ -202,20 +202,21 @@ class PhotoUploadView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['photos'] = self.get_serialized_photos()
+        task_id = self.kwargs['pk']
+        context['task'] = Task.objects.get(pk=task_id)
         return context
 
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if form.is_valid():
-            task_id = self.kwargs['task_id']
+            task_id = self.kwargs['pk']
             task = Task.objects.get(pk=task_id)
             images = self.request.FILES.getlist('images')
             for image in images:
                 photo = Photo(task=task, uploaded_by=self.request.user)
                 photo.image = self.process_uploaded_image(image)
                 photo.save()
-            return redirect('task:task_list')
+            return redirect('task:task_detail', pk=task.pk)
         else:
             return self.form_invalid(form)
 
@@ -236,11 +237,6 @@ class PhotoUploadView(FormView):
             None
         )
         return file
-
-    def get_serialized_photos(self):
-        photos = Photo.objects.all()
-        serializer = PhotoSerializer(photos, many=True)
-        return serializer.data
 
 class PhotoDeleteView(View):
     def post(self, request, pk):

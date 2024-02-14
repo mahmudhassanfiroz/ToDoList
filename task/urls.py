@@ -17,5 +17,5 @@ urlpatterns = [
     path('tasks/<int:pk>/update/', TaskUpdateView.as_view(), name='task_update'),
     path('tasks/<int:pk>/delete/', TaskDeleteView.as_view(), name='task_delete'),
     path('photos/<int:pk>/delete/', PhotoDeleteView.as_view(), name='photo_delete'),
-    path('tasks/<int:task_id>/photos/', PhotoUploadView.as_view(), name='photo_upload'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) 
+    path('tasks/<int:pk>/photos/', PhotoUploadView.as_view(), name='photo_upload'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
