@@ -19,7 +19,7 @@ https://github.com/mahmudhassanfiroz/ToDoList/main
 
 Navigate to the project directory: cd task_management
 
-Create a virtual environment: python -m venv even
+Create a virtual environment: python -m venv env
 
 Activate the virtual environment: env\Scripts\activate
 
